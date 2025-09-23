@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MahasiswaController;
+
+use App\Http\Controllers\PegawaiController;
 
 
 Route::get('/pcr', function () {
@@ -26,3 +27,7 @@ Route::get('/about', function () {
 Route::get('/Matakuliah', function () {
     return view('Anda mengakses marakuliah');
 });
+
+Route::get('/blade', [PegawaiController::class, 'index']);
+
+
