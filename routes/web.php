@@ -8,7 +8,7 @@ Route::get('/pcr', function () {
     return view('welcome');
 });
 Route::get('/pcr', function () {
-    return 'Selamat Datang di Website Kampus PCR!';
+    return 'Selamat Datang di Website Kampus PCR saya!';
 });
 Route::get('/mahasiswa', function () {
     return 'Halo Mahasiswa';
