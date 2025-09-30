@@ -3,9 +3,10 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\HomeController;
 
-
-Route::get('/pcr', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/pcr', function () {
@@ -30,4 +31,7 @@ Route::get('/Matakuliah', function () {
 
 Route::get('/blade', [PegawaiController::class, 'index']);
 
+Route::get('/home', [HomeController::class, 'index']);
 
+Route::post('question/store', [QuestionController::class, 'store'])
+		->name('question.store');
