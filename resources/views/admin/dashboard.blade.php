@@ -42,8 +42,8 @@
 <body>
 	<nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
 		<a class="navbar-brand me-lg-5" href="../../index.html">
-			<img class="navbar-brand-dark" src="../../assets-admin/img/brand/light.svg" alt="Volt logo" />
-			<img class="navbar-brand-light" src="../../assets-admin/img/brand/dark.svg" alt="Volt logo" />
+			<img class="navbar-brand-dark" src="{{asset('assets-admin/img/brand/light.svg')}}" alt="Volt logo" />
+			<img class="navbar-brand-light" src="{{asset('assets-admin/img/brand/dark.svg')}}" alt="Volt logo" />
 		</a>
 		<div class="d-flex align-items-center">
 			<button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
@@ -60,7 +60,7 @@
 				class="user-card d-flex d-md-none align-items-center justify-content-between justify-content-md-center pb-4">
 				<div class="d-flex align-items-center">
 					<div class="avatar-lg me-4">
-						<img src="../../assets/img/team/profile-picture-3.jpg"
+						<img src="{{asset('assets-admin/img/team/profile-picture-3.jpg')}}"
 							class="card-img-top rounded-circle border-white" alt="Bonnie Green">
 					</div>
 					<div class="d-block">
@@ -439,7 +439,7 @@
 											<div class="col-auto">
 												<!-- Avatar -->
 												<img alt="Image placeholder"
-													src="../../assets/img/team/profile-picture-1.jpg"
+													src="{{asset('assets-admin/img/team/profile-picture-1.jpg')}}"
 													class="avatar-md rounded">
 											</div>
 											<div class="col ps-0 ms-2">
