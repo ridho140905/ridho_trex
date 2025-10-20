@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PelangganController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,12 +41,13 @@ Route::post('question/store', [QuestionController::class, 'store'])
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/auth', [AuthController::class, 'index'])->name('auth.index');
-Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
+//Route::get('/auth', [AuthController::class, 'index'])->name('auth.index');
+//Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
 
-Route::get('/auth/register', function () {
+//Route::get('/auth/register', function () {
     return view('form-register');
-})->name('auth.showRegister');
+//})->name('auth.showRegister');
 
-Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
+//Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
 
+Route::resource('pelanggan', PelangganController::class);
