@@ -45,7 +45,7 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 //Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
 
 //Route::get('/auth/register', function () {
-    return view('form-register');
+   // return view('form-register');
 //})->name('auth.showRegister');
 
 //Route::post('/auth/register', [AuthController::class, 'register'])->name('auth.register');
