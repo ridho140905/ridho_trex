@@ -72,7 +72,7 @@
                     </a>
                 </li>
                 <!-- Tambahkan blok kode ini -->
-                <li class="nav-item  active ">
+               <li class="nav-item {{ request()->routeIs('pelanggan.*') ? 'active' : '' }}">
                     <a href="" class="nav-link">
                         <span class="sidebar-icon">
                             <svg class="icon icon-xs me-2" data-slot="icon" fill="none" stroke-width="1.5"
