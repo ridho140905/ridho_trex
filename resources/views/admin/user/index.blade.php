@@ -51,7 +51,7 @@
                                     <th class="border-0">Photo Profile</th>
                                     <th class="border-0">Email</th>
                                     <th class="border-0">Password</th>
-                                    <th class="border-0">Email</th>
+                                    <th class="border-0">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

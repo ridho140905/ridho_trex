@@ -53,3 +53,15 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 
 Route::resource('pelanggan', PelangganController::class);
 Route::resource('user', UserController::class);
+
+Route::resource('pelanggan', PelangganController::class);
+Route::get('pelanggan/detail/{id}', [PelangganController::class, 'detail'])
+    ->name('pelanggan.detail');
+
+// Route Untuk MultipleuploadsController
+Route::get('/multipleuploads', [MultipleuploadsController::class, 'index'])->name('uploads');
+Route::post('/save', [MultipleuploadsController::class, 'store'])->name('uploads.store');
+Route::delete('/uploads/{id}', [MultipleuploadsController::class, 'destroy'])->name('uploads.destroy');
+
+
+

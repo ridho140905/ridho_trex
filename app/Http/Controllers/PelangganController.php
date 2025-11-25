@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\MultipleUploads;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 
@@ -11,14 +12,14 @@ class PelangganController extends Controller
      */
     public function index(Request $request)
     {
-      // Daftar kolom yang bisa difilter sesuai name pada form
-    $filterableColumns = ['gender'];
-    $searchableColumns = ['first_name','last_name','email'];
-    // Gunakan scope filter untuk memproses query
-    $pageData['dataPelanggan'] = Pelanggan::filter($request, $filterableColumns)
-    ->search($request,$searchableColumns)
-    ->paginate(10)->withQueryString();
-    return view('admin.pelanggan.index', $pageData);
+        $filterableColumns = ['gender'];
+        $searchableColumns = ['first_name', 'last_name', 'email'];
+
+        $data['dataPelanggan'] = Pelanggan::filter($request, $filterableColumns)
+            ->search($request, $searchableColumns)
+            ->paginate(10)
+            ->withQueryString();
+        return view('admin.pelanggan.index', $data);
     }
 
     /**
@@ -34,13 +35,14 @@ class PelangganController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+        //dd($request->all())
+
         $data['first_name'] = $request->first_name;
-        $data['last_name']  = $request->last_name;
-        $data['birthday']   = $request->birthday;
-        $data['gender']     = $request->gender;
-        $data['email']      = $request->email;
-        $data['phone']      = $request->phone;
+        $data['last_name'] = $request->last_name;
+        $data['birthday'] = $request->birthday;
+        $data['gender'] = $request->gender;
+        $data['email'] = $request->email;
+        $data['phone'] = $request->phone;
 
         Pelanggan::create($data);
 
@@ -58,11 +60,35 @@ class PelangganController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
+        // Ambil data pelanggan
         $data['dataPelanggan'] = Pelanggan::findOrFail($id);
+
+        // Ambil semua file milik pelanggan ini
+        $data['pelangganFiles'] = MultipleUploads::where('ref_table', 'pelanggan')
+            ->where('ref_id', $data['dataPelanggan']->pelanggan_id) // pastikan ini sesuai kolom ID di DB
+            ->get();
+
+        // Kirim ke view
         return view('admin.pelanggan.edit', $data);
     }
+
+
+    public function detail($id)
+    {
+        $pelanggan = Pelanggan::findOrFail($id);
+
+        // Ambil semua file milik pelanggan ini
+        $pelangganFiles = MultipleUploads::where('ref_table', 'pelanggan')
+            ->where('ref_id', $pelanggan->pelanggan_id)
+            ->get();
+
+        return view('admin.pelanggan.detail', compact('pelanggan', 'pelangganFiles'));
+    }
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -70,18 +96,15 @@ class PelangganController extends Controller
     public function update(Request $request, string $id)
     {
         $pelanggan_id = $id;
-        $pelanggan    = Pelanggan::findOrFail($pelanggan_id);
+        $pelanggan = Pelanggan::findOrFail($pelanggan_id);
 
         $pelanggan->first_name = $request->first_name;
-        $pelanggan->last_name  = $request->last_name;
-        $pelanggan->birthday   = $request->birthday;
-        $pelanggan->gender     = $request->gender;
-        $pelanggan->email      = $request->email;
-        $pelanggan->phone      = $request->phone;
+        $pelanggan->first_name = $request->first_name;
+        $pelanggan->first_name = $request->first_name;
 
         $pelanggan->save();
+        return redirect()->route('pelanggan.index')->with('success', 'Perubahan Data Berhasil');
 
-        return redirect()->route('pelanggan.index')->with('success', 'Perubahan Data Berhasil!');
     }
 
     /**
@@ -90,9 +113,7 @@ class PelangganController extends Controller
     public function destroy(string $id)
     {
         $pelanggan = Pelanggan::findOrFail($id);
-
         $pelanggan->delete();
-
         return redirect()->route('pelanggan.index')->with('success', 'Data berhasil dihapus');
     }
 }
