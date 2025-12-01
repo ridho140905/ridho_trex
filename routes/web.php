@@ -58,10 +58,10 @@ Route::resource('pelanggan', PelangganController::class);
 Route::get('pelanggan/detail/{id}', [PelangganController::class, 'detail'])
     ->name('pelanggan.detail');
 
-// Route Untuk MultipleuploadsController
-Route::get('/multipleuploads', [MultipleuploadsController::class, 'index'])->name('uploads');
-Route::post('/save', [MultipleuploadsController::class, 'store'])->name('uploads.store');
-Route::delete('/uploads/{id}', [MultipleuploadsController::class, 'destroy'])->name('uploads.destroy');
 
 
 
+// Tambahan routes untuk upload file
+Route::get('pelanggan/{pelanggan}/show', [PelangganController::class, 'show'])->name('pelanggan.show');
+Route::post('pelanggan/{pelanggan}/upload-files', [PelangganController::class, 'uploadFiles'])->name('pelanggan.upload-files');
+Route::delete('pelanggan/{pelanggan}/files/{file}', [PelangganController::class, 'deleteFile'])->name('pelanggan.delete-file');

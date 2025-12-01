@@ -6,26 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-     public function up(): void
+    public function up(): void
     {
         Schema::create('multipleuploads', function (Blueprint $table) {
             $table->id();
-            $table->string('filename', 250);
-            $table->string('ref_table', 100);
-            $table->unsignedBigInteger('ref_id');
+            $table->string('filename');
+            $table->string('ref_table', 100)->nullable(); // untuk nama tabel pemilik file
+            $table->unsignedBigInteger('ref_id')->nullable(); // untuk ID data pada tabel tersebut
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('multipleuploads');
     }
 };
-
