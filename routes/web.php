@@ -65,3 +65,6 @@ Route::get('pelanggan/detail/{id}', [PelangganController::class, 'detail'])
 Route::get('pelanggan/{pelanggan}/show', [PelangganController::class, 'show'])->name('pelanggan.show');
 Route::post('pelanggan/{pelanggan}/upload-files', [PelangganController::class, 'uploadFiles'])->name('pelanggan.upload-files');
 Route::delete('pelanggan/{pelanggan}/files/{file}', [PelangganController::class, 'deleteFile'])->name('pelanggan.delete-file');
+
+Route::get('/auth', [AuthController::class, 'index'])->name('auth.index');
+Route::post('/auth/login', [AuthController::class, 'login'])->name('auth.login');
