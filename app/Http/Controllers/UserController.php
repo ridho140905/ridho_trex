@@ -28,38 +28,29 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
-            'user_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
-        ], [
-            'name.required' => 'Nama wajib diisi.',
-            'name.max' => 'Nama tidak boleh lebih dari 100 karakter.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan.',
-            'password.required' => 'Password wajib diisi.',
-            'password.min' => 'Password minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak sesuai.',
+        $request->validate([
+            'name'            => 'required|max:100',
+            'email'           => ['required', 'email', 'unique:users'],
+            'password'        => 'required|max:300|min:8|confirmed',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Default value
-        $picturePath = null;
+        $data = [
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'role' => $request->role,
+            'password' => Hash::make($request->password),
+        ];
 
-        // Jika ada upload foto
-        if ($request->hasFile('user_picture')) {
-            $picturePath = $request->file('user_picture')->store('user_pictures', 'public');
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            $path                    = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $data['profile_picture'] = $path;
         }
 
-        User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'user_picture' => $picturePath,
-        ]);
+        User::create($data);
 
         return redirect()->route('user.index')->with('success', 'Penambahan Data User Berhasil!');
     }
@@ -84,47 +75,52 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|min:8|confirmed',
-            'user_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5000',
-        ], [
-            'name.required' => 'Nama wajib diisi.',
-            'name.max' => 'Nama tidak boleh lebih dari 100 karakter.',
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'email.unique' => 'Email sudah digunakan oleh pengguna lain.',
-            'password.min' => 'Password minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak sesuai.',
+        $request->validate([
+            'name'                   => 'required|max:100',
+            'email'                  => ['required', 'email', 'unique:users,email,' . $id],
+            'password'               => 'nullable|min:8|confirmed',
+            'profile_picture'        => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'remove_profile_picture' => 'nullable|boolean',
         ]);
 
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
+        $data = [
+            'name'  => $request->name,
+            'email' => $request->email,
+            'role' => $request->role,
 
-        if (!empty($validatedData['password'])) {
-            $user->password = Hash::make($validatedData['password']);
+        ];
+
+        // Update password jika diisi
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
         }
 
-        // Update photo only if uploaded
-        if ($request->hasFile('user_picture')) {
+        // Handle remove profile picture
+        if ($request->remove_profile_picture) {
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+            $data['profile_picture'] = null;
+        }
 
-            // Delete old file
-            if ($user->user_picture) {
-                Storage::disk('public')->delete($user->user_picture);
+        // Handle profile picture upload
+        if ($request->hasFile('profile_picture')) {
+            // Delete old picture if exists
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
             }
 
-            $path = $request->file('user_picture')->store('user_pictures', 'public');
-            $user->user_picture = $path;
+            $path                    = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $data['profile_picture'] = $path;
         }
 
-        $user->save();
+        $user->update($data);
 
-        return redirect()->route('user.index')->with('success', 'Perubahan Data Berhasil!');
+        return redirect()->route('user.index')->with('success', 'Perubahan Data User Berhasil!');
     }
 
     /**

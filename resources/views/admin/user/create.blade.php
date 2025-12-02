@@ -89,6 +89,18 @@
                             </div>
                         </div>
 
+                        {{-- Role --}}
+                         <div class="mb-3">
+                                        <label for="role" class="form-label">role</label>
+                                        <select id="role" name="role" class="form-select">
+                                            <option value="">-- Pilih --</option>
+                                            <option value="Admin" >Admin</option>
+                                            <option value="Pelanggan">Pelanggan</option>
+                                            <option value="Mitra">Mitra</option>
+                                        </select>
+
+                                        </div>
+
                         {{-- Tombol --}}
                         <div class="mt-3">
                             <button type="submit" class="btn btn-primary">Simpan</button>

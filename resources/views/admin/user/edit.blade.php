@@ -102,14 +102,26 @@
                                             class="form-control @error('password_confirmation') is-invalid @enderror"
                                             required>
                                     </div>
+                                 <!-- Role -->
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">role</label>
+                                        <select id="role" name="role" class="form-select">
+                                            <option value="">-- Pilih --</option>
+                                            <option value="Admin" >Admin</option>
+                                            <option value="Pelanggan">Pelanggan</option>
+                                            <option value="Mitra">Mitra</option>
+                                        </select>
+                                    </div>
 
-                                    <!-- Buttons -->
-                                    <div class="">
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                        <a href="{{ route('user.index') }}" class="btn btn-outline-secondary ms-2">Batal</a>
+
+                                        <!-- Buttons -->
+                                        <div class="">
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                            <a href="{{ route('user.index') }}"
+                                                class="btn btn-outline-secondary ms-2">Batal</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         </form>
                     </div>
 
